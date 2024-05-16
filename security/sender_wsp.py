@@ -7,8 +7,8 @@ from security.models import *
 
 
 # Find your Account SID and Auth Token at twilio.com/console
-account_sid = 'AC93436856d3e08e33c60580f8ab624186'
-auth_token = 'b33c1bc496b863dd2223809187833ef8'
+account_sid = ''
+auth_token = ''
 client = Client(account_sid, auth_token)
 
 
