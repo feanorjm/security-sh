@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Example</title>
+</head>
+<body>
+
+<script>
+    // Conexión WebSocket
+    const socket = new WebSocket('ws://localhost:8000/ws/alerts/');
+    //const socket = new WebSocket('wss://services.smarthomy.com/ws/alerts/');
+
+    // Manejar la recepción de mensajes
+    socket.onmessage = (event) => {
+        const message = JSON.parse(event.data);
+
+        if (message.type === 'alert.created') {
+            // Manejar los datos del informe creado
+            console.log('Nuevo informe:', message.data);
+            // Aquí puedes actualizar tu interfaz de usuario con los nuevos datos
+            // por ejemplo, agregar el informe a una lista en el HTML
+            const alertList = document.getElementById('alert-list');
+            const listItem = document.createElement('li');
+            listItem.textContent = JSON.stringify(message.data);
+            alertList.appendChild(listItem);
+        }
+    };
+
+    // Manejar errores de conexión
+    socket.onerror = (error) => {
+        console.error('Error de conexión WebSocket:', error);
+    };
+
+    // Manejar la conexión cerrada
+    socket.onclose = (event) => {
+        if (event.wasClean) {
+            console.log(`Conexión cerrada de forma limpia, código=${event.code}, motivo=${event.reason}`);
+        } else {
+            console.error('Conexión rota'); // por ejemplo, el servidor murió
+        }
+    };
+
+    // Manejar la conexión abierta
+    socket.onopen = () => {
+        console.log('Conexión WebSocket abierta');
+    };
+</script>
+
+<!-- Puedes tener una lista en el HTML para mostrar los informes -->
+<ul id="alert-list"></ul>
+
+</body>
+</html>

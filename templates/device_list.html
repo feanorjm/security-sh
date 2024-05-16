@@ -1,0 +1,48 @@
+{% extends "admin/change_form.html" %}
+
+{% block content %}
+    {{ block.super }}
+    <br>
+    <header>
+        <h1>Devices</h1>
+    </header>
+    {% if has_devices %}
+        <div class="grp-module grp-changelist-results">
+            <table class="grp-table grp-sortable">
+                <thead>
+                    <tr>
+                      <th class="sortable">Nombre</th>
+                      <th class="sortable">Home</th>
+                      <th class="sortable">ID</th>
+                      <th class="sortable">uuid</th>
+                      <th class="sortable">Product id</th>
+                      <th class="sortable">Online</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for d in osm_data %}
+                        <tr class="grp-row grp-row-odd">
+                            <td>{{d.name}}</td>
+                            <td>{{d.owner_id}}</td>
+                            <td>{{d.id}}</td>
+                            <td>{{d.uuid}}</td>
+                            <td>{{d.product_id}}</td>
+                            <td>{{d.online}}</td>
+                        </tr>
+                    {% endfor %}
+                <tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>Ha ocurrido un error al obtener los dispositivos</p>
+    {% endif %}
+
+    {% block submit_row %}
+        <div class="submit-row">
+        {% if custom_button %}
+            <input type="submit" style="float:right;margin-left:8px;" value="Change Password" name="_change_password">
+        {% endif %}
+        </div>
+    {% endblock %}
+{% endblock %}
+
